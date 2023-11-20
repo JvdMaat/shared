@@ -1,0 +1,1639 @@
+[
+    {
+        "id": "c5abd79d6e5f9290",
+        "type": "group",
+        "z": "fbff923444034ab0",
+        "name": "High/Low",
+        "style": {
+            "stroke": "#92d04f",
+            "fill": "#e3f3d3",
+            "label": true,
+            "color": "#0070c0",
+            "fill-opacity": "0.6"
+        },
+        "nodes": [
+            "d76bdfd8958018b8",
+            "46dde7da9d2a5fd2",
+            "b817694f02ec83c1",
+            "8b37b859c86a0311",
+            "b40c4b8e9896d774",
+            "2f3844c2757417f6",
+            "1703e21ea5b631dc",
+            "cc9c441f5cb01d2b",
+            "12458e512d80fb35",
+            "5766e5fbeda0d274",
+            "0fb271c829645ac8",
+            "f086d5c0f31673fc",
+            "47a963ca72b7024b",
+            "0142a78589b4a959",
+            "9ee3bfbffe3f4eb5",
+            "6160f253158b3fe1",
+            "051282c1f861b38a",
+            "7ccfa9930c386172",
+            "012de8f3420b71b2",
+            "f0c5ac5b324d2157",
+            "2f1202ded9c692bf",
+            "071a0a5db3579341",
+            "68a004322706c605",
+            "aed11232c203db7c",
+            "8abec073a103576b",
+            "6e69e1fbfc475329",
+            "fbfddad580db124b",
+            "e955828f9e45ecea",
+            "b63a4e41bc65112e",
+            "cfdb10ead8c42f91",
+            "798f72a418a851f5",
+            "6b0fcca2717c4870",
+            "622b7a88500bde78",
+            "c76d4ce5eb499ba4",
+            "71470cbb9931c3f4",
+            "d9f764ad959b7ceb",
+            "93571154a887617e",
+            "79e3d17221789c96"
+        ],
+        "x": 14,
+        "y": 1199,
+        "w": 1452,
+        "h": 642
+    },
+    {
+        "id": "d76bdfd8958018b8",
+        "type": "function",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get lowest/highest",
+        "func": "// Check to see if temp is lower. Only check for weekly if daily is lower,\n// only check monthly if the weekly was lower, etc, etc.\n\n// If higher/lower temp found, set current variables, and also\n// set the flow variables which persistently save over reboot to \n// avoid HA losing these values affter an update\n\nvar d=new Date()\nvar timestamp = d.toLocaleString();\n\nif (msg.current < msg.mintoday) {\n    msg.mintoday = msg.current;\n    msg.mintodaydate = timestamp;\n    flow.set(\"TempMinToday\", msg.current, \"persistent\");\n    flow.set(\"TempMinTodayDate\", timestamp, \"persistent\");\n    if (msg.current < msg.minweek) {\n        msg.minweek = msg.current;\n        msg.minweekdate = timestamp;\n        flow.set(\"TempMinWeek\", msg.current, \"persistent\");\n        flow.set(\"TempMinWeekDate\", timestamp, \"persistent\");\n        if (msg.current < msg.minmonth) {\n            msg.minmonth = msg.current;\n            msg.minmonthdate = timestamp;\n            flow.set(\"TempMinMonth\", msg.current, \"persistent\");\n            flow.set(\"TempMinMonthDate\", timestamp, \"persistent\");\n            if (msg.current < msg.minyear) {\n                msg.minyear = msg.current;\n                msg.minyeardate = timestamp;\n                flow.set(\"TempMinYear\", msg.current, \"persistent\");\n                flow.set(\"TempMinYearDate\", timestamp, \"persistent\");\n                if (msg.current < msg.minalltime) {\n                    msg.minalltime = msg.current;\n                    msg.minalltimedate = timestamp;\n                    flow.set(\"TempMinAllTime\", msg.current, \"persistent\");\n                    flow.set(\"TempMinAllTimeDate\", timestamp, \"persistent\");\n                }\n            }\n        }\n    }\n}\n// Only check if temp was not lower\nelse if (msg.current > msg.maxtoday) {\n    msg.maxtoday = msg.current;\n    msg.maxtodaydate = timestamp;\n    flow.set(\"TempMaxToday\", msg.current, \"persistent\");\n    flow.set(\"TempMaxTodayDate\", timestamp, \"persistent\");\n    if (msg.current > msg.maxweek) {\n        msg.maxweek = msg.current;\n        msg.maxweekdate = timestamp;\n        flow.set(\"TempMaxWeek\", msg.current, \"persistent\");\n        flow.set(\"TempMaxWeekDate\", timestamp, \"persistent\");\n        if (msg.current > msg.maxmonth) {\n            msg.maxmonth = msg.current;\n            msg.maxmonthdate = timestamp;\n            flow.set(\"TempMaxMonth\", msg.current, \"persistent\");\n            flow.set(\"TempMaxMonthDate\", timestamp, \"persistent\");\n            if (msg.current > msg.maxyear) {\n                msg.maxyear = msg.current;\n                msg.maxyeardate = timestamp;\n                flow.set(\"TempMaxYear\", msg.current, \"persistent\");\n                flow.set(\"TempMaxYearDate\", timestamp, \"persistent\");\n                if (msg.current > msg.maxalltime) {\n                    msg.maxalltime = msg.current;\n                    msg.maxalltimedate = timestamp;\n                    flow.set(\"TempMaxAllTime\", msg.current, \"persistent\");\n                    flow.set(\"TempMaxAllTimeDate\", timestamp, \"persistent\");\n                }\n            }\n        }\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 1480,
+        "wires": [
+            [
+                "b817694f02ec83c1",
+                "2f3844c2757417f6",
+                "cc9c441f5cb01d2b",
+                "12458e512d80fb35",
+                "68a004322706c605",
+                "071a0a5db3579341",
+                "8abec073a103576b",
+                "aed11232c203db7c",
+                "fbfddad580db124b",
+                "6e69e1fbfc475329"
+            ]
+        ]
+    },
+    {
+        "id": "46dde7da9d2a5fd2",
+        "type": "server-state-changed",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Outdoor Temp",
+        "server": "d4a62137cad11c32",
+        "version": 5,
+        "outputs": 1,
+        "exposeAsEntityConfig": "",
+        "entityId": "sensor.gw1100b_temp",
+        "entityIdType": "exact",
+        "outputInitially": false,
+        "stateType": "num",
+        "ifState": "",
+        "ifStateType": "str",
+        "ifStateOperator": "is",
+        "outputOnlyOnStateChange": true,
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "ignorePrevStateNull": false,
+        "ignorePrevStateUnknown": false,
+        "ignorePrevStateUnavailable": false,
+        "ignoreCurrentStateUnknown": false,
+        "ignoreCurrentStateUnavailable": false,
+        "outputProperties": [
+            {
+                "property": "payload",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "data",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "eventData"
+            },
+            {
+                "property": "topic",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "triggerId"
+            }
+        ],
+        "x": 110,
+        "y": 1400,
+        "wires": [
+            [
+                "8b37b859c86a0311"
+            ]
+        ]
+    },
+    {
+        "id": "b817694f02ec83c1",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Today's Max Temp",
+        "entityConfig": "df32718a55faf066",
+        "version": 0,
+        "state": "maxtoday",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "maxtodaydate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1310,
+        "y": 1300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8b37b859c86a0311",
+        "type": "function",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Set Current",
+        "func": "msg.current = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 1400,
+        "wires": [
+            [
+                "1703e21ea5b631dc"
+            ]
+        ]
+    },
+    {
+        "id": "b40c4b8e9896d774",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get Today Max",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_max_today",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "maxtoday",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "maxtodayentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 500,
+        "y": 1300,
+        "wires": [
+            [
+                "5766e5fbeda0d274"
+            ]
+        ]
+    },
+    {
+        "id": "2f3844c2757417f6",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Today's Min Temp",
+        "entityConfig": "cc91022240affcef",
+        "version": 0,
+        "state": "mintoday",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "mintodaydate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1310,
+        "y": 1240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1703e21ea5b631dc",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get Today Min",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_min_today",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "mintoday",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "mintodayentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 500,
+        "y": 1240,
+        "wires": [
+            [
+                "b40c4b8e9896d774"
+            ]
+        ]
+    },
+    {
+        "id": "cc9c441f5cb01d2b",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Week's Max Temp",
+        "entityConfig": "f74c5321c649fa84",
+        "version": 0,
+        "state": "maxweek",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "maxweekdate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1330,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "12458e512d80fb35",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Week's MinTemp",
+        "entityConfig": "f8f2abb33b0f7122",
+        "version": 0,
+        "state": "minweek",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "minweekdate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1320,
+        "y": 1360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5766e5fbeda0d274",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get Week Min",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_min_week",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "minweek",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "minweekentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 500,
+        "y": 1360,
+        "wires": [
+            [
+                "0fb271c829645ac8"
+            ]
+        ]
+    },
+    {
+        "id": "0fb271c829645ac8",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get Week Max",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_max_week",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "maxweek",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "maxweekentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 500,
+        "y": 1420,
+        "wires": [
+            [
+                "b63a4e41bc65112e"
+            ]
+        ]
+    },
+    {
+        "id": "f086d5c0f31673fc",
+        "type": "inject",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Midnight Value Reset",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 00 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 1540,
+        "wires": [
+            [
+                "47a963ca72b7024b"
+            ]
+        ]
+    },
+    {
+        "id": "47a963ca72b7024b",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Current Temp",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.gw1100b_temp",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "current",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 360,
+        "y": 1540,
+        "wires": [
+            [
+                "6160f253158b3fe1",
+                "0142a78589b4a959",
+                "9ee3bfbffe3f4eb5"
+            ]
+        ]
+    },
+    {
+        "id": "0142a78589b4a959",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Today's Max Temp",
+        "entityConfig": "df32718a55faf066",
+        "version": 0,
+        "state": "current",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 730,
+        "y": 1560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9ee3bfbffe3f4eb5",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Today's Min Temp",
+        "entityConfig": "cc91022240affcef",
+        "version": 0,
+        "state": "current",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 730,
+        "y": 1520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6160f253158b3fe1",
+        "type": "function",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "First day of Week, Month, Year?",
+        "func": "/* How do we get day of week, month, year? */\n\nconst today = new Date();\nconst dayOfWeek = today.getDay();\nconst dayOfMonth = today.getDate();\nconst firstDayOfYear = new Date(today.getFullYear(),0,1);\n\n\nif (dayOfWeek == 1) { //Monday\n    msg.week = true;\n}\nif (dayOfMonth == 1) { //1-31\n    msg.month = true;\n}\nif (today.getTime() == firstDayOfYear.getTime()) {\n    msg.year = true;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 190,
+        "y": 1700,
+        "wires": [
+            [
+                "051282c1f861b38a",
+                "7ccfa9930c386172",
+                "012de8f3420b71b2"
+            ]
+        ]
+    },
+    {
+        "id": "051282c1f861b38a",
+        "type": "switch",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Weekly",
+        "property": "weekly",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 1620,
+        "wires": [
+            [
+                "f0c5ac5b324d2157",
+                "2f1202ded9c692bf"
+            ]
+        ]
+    },
+    {
+        "id": "7ccfa9930c386172",
+        "type": "switch",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Monthly",
+        "property": "monthly",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 1700,
+        "wires": [
+            [
+                "c76d4ce5eb499ba4",
+                "71470cbb9931c3f4"
+            ]
+        ]
+    },
+    {
+        "id": "012de8f3420b71b2",
+        "type": "switch",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Yearly",
+        "property": "yearly",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 470,
+        "y": 1780,
+        "wires": [
+            [
+                "d9f764ad959b7ceb",
+                "93571154a887617e"
+            ]
+        ]
+    },
+    {
+        "id": "f0c5ac5b324d2157",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Week's MinTemp",
+        "entityConfig": "f8f2abb33b0f7122",
+        "version": 0,
+        "state": "current",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 740,
+        "y": 1600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2f1202ded9c692bf",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Week's Max Temp",
+        "entityConfig": "f74c5321c649fa84",
+        "version": 0,
+        "state": "current",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 750,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "071a0a5db3579341",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Month's Max Temp",
+        "entityConfig": "a0de134d0ae5d4fb",
+        "version": 0,
+        "state": "maxmonth",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "maxmonthdate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1330,
+        "y": 1540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "68a004322706c605",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Month's MinTemp",
+        "entityConfig": "7ceeb95d9a482279",
+        "version": 0,
+        "state": "minmonth",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "minmonthdate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1320,
+        "y": 1480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aed11232c203db7c",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Year's Max Temp",
+        "entityConfig": "83e35780d8b7db0f",
+        "version": 0,
+        "state": "maxmonth",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "maxyeardate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1320,
+        "y": 1660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8abec073a103576b",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Year's MinTemp",
+        "entityConfig": "42a2bbab8e9c41b7",
+        "version": 0,
+        "state": "minmonth",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "minyeardate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1320,
+        "y": 1600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6e69e1fbfc475329",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "All Time Max Temp",
+        "entityConfig": "9ae79e301ae49d1c",
+        "version": 0,
+        "state": "maxalltime",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "maxalltimedate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1310,
+        "y": 1780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fbfddad580db124b",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "All Time MinTemp",
+        "entityConfig": "16e09ef2999e3a15",
+        "version": 0,
+        "state": "minalltime",
+        "stateType": "msg",
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "minalltimedate",
+                "valueType": "msg"
+            }
+        ],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1310,
+        "y": 1720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e955828f9e45ecea",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get Month Max",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_max_this_month",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "maxmonth",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "maxmonthentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 740,
+        "y": 1300,
+        "wires": [
+            [
+                "cfdb10ead8c42f91"
+            ]
+        ]
+    },
+    {
+        "id": "b63a4e41bc65112e",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get Month Min",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_min_this_month",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "minmonth",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "minmonthentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 740,
+        "y": 1240,
+        "wires": [
+            [
+                "e955828f9e45ecea"
+            ]
+        ]
+    },
+    {
+        "id": "cfdb10ead8c42f91",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get Year Min",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_min_this_year",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "minyear",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "minyearentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 730,
+        "y": 1360,
+        "wires": [
+            [
+                "798f72a418a851f5"
+            ]
+        ]
+    },
+    {
+        "id": "798f72a418a851f5",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get Year Max",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_max_this_year",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "maxyear",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "maxyearentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 740,
+        "y": 1420,
+        "wires": [
+            [
+                "6b0fcca2717c4870"
+            ]
+        ]
+    },
+    {
+        "id": "6b0fcca2717c4870",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get AllTime Min",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_min_all_time",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "minalltime",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "minalltimeentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 980,
+        "y": 1240,
+        "wires": [
+            [
+                "622b7a88500bde78"
+            ]
+        ]
+    },
+    {
+        "id": "622b7a88500bde78",
+        "type": "api-current-state",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Get AllTime Max",
+        "server": "d4a62137cad11c32",
+        "version": 3,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "entity_id": "sensor.outdoor_temp_max_all_time",
+        "state_type": "num",
+        "blockInputOverrides": false,
+        "outputProperties": [
+            {
+                "property": "maxalltime",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entityState"
+            },
+            {
+                "property": "maxalltimeentity",
+                "propertyType": "msg",
+                "value": "",
+                "valueType": "entity"
+            }
+        ],
+        "for": "0",
+        "forType": "num",
+        "forUnits": "minutes",
+        "override_topic": false,
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "x": 980,
+        "y": 1300,
+        "wires": [
+            [
+                "79e3d17221789c96"
+            ]
+        ]
+    },
+    {
+        "id": "c76d4ce5eb499ba4",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Month's MinTemp",
+        "entityConfig": "7ceeb95d9a482279",
+        "version": 0,
+        "state": "current",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 740,
+        "y": 1680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "71470cbb9931c3f4",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Month's Max Temp",
+        "entityConfig": "a0de134d0ae5d4fb",
+        "version": 0,
+        "state": "current",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 750,
+        "y": 1720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d9f764ad959b7ceb",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Year's MinTemp",
+        "entityConfig": "42a2bbab8e9c41b7",
+        "version": 0,
+        "state": "current",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 740,
+        "y": 1760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "93571154a887617e",
+        "type": "ha-sensor",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "This Year's Max Temp",
+        "entityConfig": "83e35780d8b7db0f",
+        "version": 0,
+        "state": "current",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 740,
+        "y": 1800,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "79e3d17221789c96",
+        "type": "function",
+        "z": "fbff923444034ab0",
+        "g": "c5abd79d6e5f9290",
+        "name": "Restore undefined values",
+        "func": "// If HA restarts from update, all these will be undefined.\n// This function will restore the last known values from NodeRed.\n// If no last known value (first run, uninitialized), it'll use the\n// current temperature.\n\nmsg.mintodaydate = msg.mintodayentity.attributes.date;\nmsg.maxtodaydate = msg.maxtodayentity.attributes.date;\nmsg.minweekdate = msg.minweekentity.attributes.date;\nmsg.maxweekdate = msg.maxweekentity.attributes.date;\nmsg.minmonthdate = msg.minmonthentity.attributes.date;\nmsg.maxmonthdate = msg.maxmonthentity.attributes.date;\nmsg.minyeardate = msg.minyearentity.attributes.date;\nmsg.maxyeardate = msg.maxyearentity.attributes.date;\nmsg.minalltimedate = msg.minalltimeentity.attributes.date;\nmsg.maxalltimedate = msg.maxalltimeentity.attributes.date;\n\nvar tmpTemp = 0;\n\nif (isNaN(msg.mintoday)) {\n    tmpTemp = flow.get(\"TempMinToday\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.mintoday = msg.current;\n    }\n    else {\n        msg.mintoday = tmpTemp;\n        msg.mintodaydate = flow.get(\"TempMinTodayDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.maxtoday)) {\n    tmpTemp = flow.get(\"TempMaxToday\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.mmaxtoday = msg.current;\n    }\n    else {\n        msg.maxtoday = tmpTemp;\n        msg.maxtodaydate = flow.get(\"TempMaxTodayDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.minweek)) {\n    tmpTemp = flow.get(\"TempMinWeek\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.minweek = msg.current;\n    }\n    else {\n        msg.minweek = tmpTemp;\n        msg.minweekdate = flow.get(\"TempMinWeekDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.maxweek)) {\n    tmpTemp = flow.get(\"TempMaxWeek\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.maxweek = msg.current;\n    }\n    else {\n        msg.maxweek=tmpTemp;\n        msg.maxweekdate = flow.get(\"TempMaxWeekDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.minmonth)) {\n    tmpTemp = flow.get(\"TempMinMonth\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.minmonth = msg.current;\n    }\n    else {\n        msg.minmonth = tmpTemp;\n        msg.minmonthdate = flow.get(\"TempMinMonthDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.maxmonth)) {\n    tmpTemp = flow.get(\"TempMaxMonth\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.maxmonth = msg.current;\n    }\n    else {\n        msg.maxmonth = tmpTemp;\n        msg.maxmonthdate = flow.get(\"TempMaxMonthDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.minyear)) {\n    tmpTemp = flow.get(\"TempMinYear\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.minyear = msg.current;\n    }\n    else {\n        msg.minyear = tmpTemp;\n        msg.minyeardate = flow.get(\"TempMinYearDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.maxyear)) {\n    tmpTemp = flow.get(\"TempMaxYear\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.maxyear = msg.current;\n    }\n    else {\n        msg.maxyear = tmpTemp;\n        msg.maxyeardate = flow.get(\"TempMaxYearDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.minalltime)) {\n    tmpTemp = flow.get(\"TempMinAllTime\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.minalltime = msg.current;\n    }\n    else {\n        msg.minalltime = tmpTemp;\n        msg.minalltimedate = flow.get(\"TempMinAllTimeDate\", \"persistent\");\n    }\n}\nif (isNaN(msg.maxalltime)) {\n    tmpTemp = flow.get(\"TempMaxAllTime\", \"persistent\");\n    if (isNaN(tmpTemp)) {\n        msg.maxalltime = msg.current;\n    }\n    else {\n        msg.maxalltime = tmpTemp;\n        msg.maxalltimedate = flow.get(\"TempMaxAllTimeDate\", \"persistent\");\n    }\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1010,
+        "y": 1360,
+        "wires": [
+            [
+                "d76bdfd8958018b8"
+            ]
+        ]
+    },
+    {
+        "id": "d4a62137cad11c32",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 5,
+        "addon": false,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": "30",
+        "areaSelector": "friendlyName",
+        "deviceSelector": "friendlyName",
+        "entitySelector": "friendlyName",
+        "statusSeparator": "at: ",
+        "statusYear": "hidden",
+        "statusMonth": "short",
+        "statusDay": "numeric",
+        "statusHourCycle": "h23",
+        "statusTimeFormat": "h:m",
+        "enableGlobalContextStore": true
+    },
+    {
+        "id": "df32718a55faf066",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Max Today",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Max Today"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-up"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "cc91022240affcef",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Min Today",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Min Today"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-down"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "f74c5321c649fa84",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Max This Week",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Max This Week"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-up"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "f8f2abb33b0f7122",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Min This Week",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Min This Week"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-down"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "a0de134d0ae5d4fb",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Max This Month",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Max This Month"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-up"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "7ceeb95d9a482279",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Min This Month",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Min This Month"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-down"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "83e35780d8b7db0f",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Max This Year",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Max This Year"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-up"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "42a2bbab8e9c41b7",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Min This Year",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Min This Year"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-down"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "9ae79e301ae49d1c",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Max All Time",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Max All Time"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-up"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    },
+    {
+        "id": "16e09ef2999e3a15",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "Outdoor Temp Min All Time",
+        "version": "6",
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "Outdoor Temp Min All Time"
+            },
+            {
+                "property": "icon",
+                "value": "mdi:thermometer-chevron-down"
+            },
+            {
+                "property": "entity_category",
+                "value": ""
+            },
+            {
+                "property": "entity_picture",
+                "value": ""
+            },
+            {
+                "property": "device_class",
+                "value": "temperature"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": "°F"
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            }
+        ],
+        "resend": false,
+        "debugEnabled": false
+    }
+]
