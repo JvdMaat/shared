@@ -1,0 +1,1155 @@
+[
+    {
+        "id": "03628ef4f22b836e",
+        "type": "group",
+        "z": "9e354d802036d78a",
+        "name": "Dell C2665dnf Color MFP",
+        "style": {
+            "stroke": "#92d04f",
+            "label": true,
+            "fill": "#7fb7df",
+            "fill-opacity": "0.6",
+            "color": "#0070c0"
+        },
+        "nodes": [
+            "b7349d5c015f47c9",
+            "d14efb3ea723261c",
+            "bc329972b7c17c88",
+            "2ed7f7391f56229b",
+            "176470a20bd37449",
+            "66965355b4f91e17",
+            "7441cedfb445ca8c",
+            "c751983f717dc4cc",
+            "7e3c1c5df3d0c9b5",
+            "5d75d6fd5448ecd0",
+            "0f8448fad3ce875a",
+            "4e7948dcfe68677b",
+            "36003c6445094496",
+            "cc67c8d9c301e8b9",
+            "3f515ac057611ed4",
+            "ed317a6745ca23ce",
+            "4b117a10575cbac7",
+            "a187c55de4ee5d94",
+            "bc45f75e7055fa99",
+            "f52fc4fcdf101a7e",
+            "0c275874dc6e1f57",
+            "c5ae60683c29fbc5",
+            "1e56aef0c7ea7ebd"
+        ],
+        "x": 14,
+        "y": 999,
+        "w": 1152,
+        "h": 1042
+    },
+    {
+        "id": "b7349d5c015f47c9",
+        "type": "snmp",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "host": "192.168.199.123",
+        "version": "2c",
+        "timeout": "15",
+        "community": "SNMP",
+        "oids": "1.3.6.1.2.1.43.11.1.1.9.1.4,\n1.3.6.1.2.1.43.11.1.1.8.1.4,\n1.3.6.1.2.1.43.11.1.1.9.1.1,\n1.3.6.1.2.1.43.11.1.1.8.1.1,\n1.3.6.1.2.1.43.11.1.1.9.1.2,\n1.3.6.1.2.1.43.11.1.1.8.1.2,\n1.3.6.1.2.1.43.11.1.1.9.1.3,\n1.3.6.1.2.1.43.11.1.1.8.1.3",
+        "name": "",
+        "x": 340,
+        "y": 1240,
+        "wires": [
+            [
+                "d14efb3ea723261c"
+            ]
+        ]
+    },
+    {
+        "id": "d14efb3ea723261c",
+        "type": "function",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "Format SNMP payload",
+        "func": "// Code to get the disk temperatures\nmsg.BLevel = parseInt(msg.payload[0].value);\nmsg.BTotal = parseInt(msg.payload[1].value);\nmsg.CLevel = parseInt(msg.payload[2].value);\nmsg.CTotal = parseInt(msg.payload[3].value);\nmsg.MLevel = parseInt(msg.payload[4].value);\nmsg.MTotal = parseInt(msg.payload[5].value);\nmsg.YLevel = parseInt(msg.payload[6].value);\nmsg.YTotal = parseInt(msg.payload[7].value);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1240,
+        "wires": [
+            [
+                "7441cedfb445ca8c",
+                "0f8448fad3ce875a",
+                "c751983f717dc4cc",
+                "4e7948dcfe68677b",
+                "7e3c1c5df3d0c9b5",
+                "36003c6445094496",
+                "5d75d6fd5448ecd0",
+                "cc67c8d9c301e8b9"
+            ]
+        ]
+    },
+    {
+        "id": "bc329972b7c17c88",
+        "type": "inject",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "4 Hours",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "14400",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "40",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 1240,
+        "wires": [
+            [
+                "b7349d5c015f47c9"
+            ]
+        ]
+    },
+    {
+        "id": "2ed7f7391f56229b",
+        "type": "snmp",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "host": "192.168.199.123",
+        "version": "2c",
+        "timeout": "15",
+        "community": "SNMP",
+        "oids": "1.3.6.1.4.1.253.8.53.13.2.1.6.1.20.1,\n1.3.6.1.4.1.253.8.53.13.2.1.6.1.20.34,\n1.3.6.1.4.1.253.8.53.13.2.1.6.1.20.33,\n1.3.6.1.4.1.253.8.53.13.2.1.6.1.20.7,\n1.3.6.1.4.1.253.8.53.13.2.1.6.1.20.29,\n1.3.6.1.4.1.253.8.53.13.2.1.6.103.20.3,\n1.3.6.1.4.1.253.8.53.13.2.1.6.103.20.25,\n1.3.6.1.4.1.253.8.53.13.2.1.6.102.20.12,\n1.3.6.1.4.1.253.8.53.13.2.1.6.102.20.11",
+        "name": "",
+        "x": 340,
+        "y": 1700,
+        "wires": [
+            [
+                "66965355b4f91e17"
+            ]
+        ]
+    },
+    {
+        "id": "176470a20bd37449",
+        "type": "inject",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "2 Hours",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "7200",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "45",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 1700,
+        "wires": [
+            [
+                "2ed7f7391f56229b"
+            ]
+        ]
+    },
+    {
+        "id": "66965355b4f91e17",
+        "type": "function",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "Format SNMP payload",
+        "func": "// Code to get the disk temperatures\nmsg.Total = parseInt(msg.payload[0].value);\nmsg.Black = parseInt(msg.payload[1].value);\nmsg.Color = parseInt(msg.payload[2].value);\nmsg.BPrint = parseInt(msg.payload[3].value);\nmsg.CPrint = parseInt(msg.payload[4].value);\nmsg.BCopy = parseInt(msg.payload[5].value);\nmsg.CCopy = parseInt(msg.payload[6].value);\nmsg.Scan2Email = parseInt(msg.payload[7].value);\nmsg.Scan2SMB = parseInt(msg.payload[8].value);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1700,
+        "wires": [
+            [
+                "3f515ac057611ed4",
+                "ed317a6745ca23ce",
+                "4b117a10575cbac7",
+                "a187c55de4ee5d94",
+                "bc45f75e7055fa99",
+                "f52fc4fcdf101a7e",
+                "0c275874dc6e1f57",
+                "c5ae60683c29fbc5",
+                "1e56aef0c7ea7ebd"
+            ]
+        ]
+    },
+    {
+        "id": "7441cedfb445ca8c",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Black Level",
+        "entityConfig": "69d5a4747d62960c",
+        "version": 0,
+        "state": "BLevel",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c751983f717dc4cc",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Cyan Level",
+        "entityConfig": "af847e74aa0363e3",
+        "version": 0,
+        "state": "CLevel",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7e3c1c5df3d0c9b5",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Magenta Level",
+        "entityConfig": "0b5795f9c54e9c54",
+        "version": 0,
+        "state": "MLevel",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1030,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5d75d6fd5448ecd0",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Yellow Level",
+        "entityConfig": "57e634187dc59fd5",
+        "version": 0,
+        "state": "YLevel",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0f8448fad3ce875a",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Black Total",
+        "entityConfig": "8c5b727da37b6ea3",
+        "version": 0,
+        "state": "BTotal",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4e7948dcfe68677b",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Cyan Total",
+        "entityConfig": "281e4474912afdd6",
+        "version": 0,
+        "state": "CTotal",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "36003c6445094496",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Magenta Total",
+        "entityConfig": "839ab5e0e4542935",
+        "version": 0,
+        "state": "MTotal",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1030,
+        "y": 1340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cc67c8d9c301e8b9",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Yellow Total",
+        "entityConfig": "4c3ee7d25bfcf0d3",
+        "version": 0,
+        "state": "YTotal",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3f515ac057611ed4",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Total Pages",
+        "entityConfig": "5e9308705c6eb983",
+        "version": 0,
+        "state": "Total",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ed317a6745ca23ce",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Black Pages",
+        "entityConfig": "c40646caa4fe0825",
+        "version": 0,
+        "state": "Black",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4b117a10575cbac7",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Color Pages",
+        "entityConfig": "17dd9d283e391e7e",
+        "version": 0,
+        "state": "Color",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a187c55de4ee5d94",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Black Print",
+        "entityConfig": "325d9b88d9eb67b4",
+        "version": 0,
+        "state": "BPrint",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bc45f75e7055fa99",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Color Print",
+        "entityConfig": "ad6dd1b269c78be3",
+        "version": 0,
+        "state": "CPrint",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f52fc4fcdf101a7e",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Black Copy",
+        "entityConfig": "ec4d36b9c3e542f1",
+        "version": 0,
+        "state": "BCopy",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0c275874dc6e1f57",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Color Copy",
+        "entityConfig": "0760866fb757d875",
+        "version": 0,
+        "state": "CCopy",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1020,
+        "y": 1880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c5ae60683c29fbc5",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Scan to Email",
+        "entityConfig": "ceb9fc875608de01",
+        "version": 0,
+        "state": "Scan2Email",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1030,
+        "y": 1940,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1e56aef0c7ea7ebd",
+        "type": "ha-sensor",
+        "z": "9e354d802036d78a",
+        "g": "03628ef4f22b836e",
+        "name": "C2665dnf Scan to SMB",
+        "entityConfig": "9968e285db77cd60",
+        "version": 0,
+        "state": "Scan2SMB",
+        "stateType": "msg",
+        "attributes": [],
+        "inputOverride": "allow",
+        "outputProperties": [],
+        "x": 1030,
+        "y": 2000,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "69d5a4747d62960c",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Black Level",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Black Level"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "af847e74aa0363e3",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Cyan Level",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Cyan Level"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "0b5795f9c54e9c54",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Magenta Level",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Magenta Level"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "57e634187dc59fd5",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Yellow Level",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Yellow Level"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "8c5b727da37b6ea3",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Black Total",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Black Total"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "281e4474912afdd6",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Cyan Total",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Cyan Total"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "839ab5e0e4542935",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Magenta Total",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Magenta Total"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "4c3ee7d25bfcf0d3",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Yellow Total",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Yellow Total"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "5e9308705c6eb983",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Total Pages",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Total Pages"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "c40646caa4fe0825",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Black Pages",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Black Pages"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "17dd9d283e391e7e",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Color Pages",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Color Pages"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "325d9b88d9eb67b4",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Black Print",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Black Print"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "ad6dd1b269c78be3",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Color Print",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Color Print"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "ec4d36b9c3e542f1",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Black Copy",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Black Copy"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "0760866fb757d875",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Color Copy",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Color Copy"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "ceb9fc875608de01",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Scan to Email",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Scan to Email"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "9968e285db77cd60",
+        "type": "ha-entity-config",
+        "server": "d4a62137cad11c32",
+        "deviceConfig": "",
+        "name": "sensor config for C2665dnf Scan to SMB",
+        "version": 6,
+        "entityType": "sensor",
+        "haConfig": [
+            {
+                "property": "name",
+                "value": "C2665dnf Scan to SMB"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            },
+            {
+                "property": "state_class",
+                "value": ""
+            },
+            {
+                "property": "last_reset",
+                "value": ""
+            }
+        ],
+        "resend": true
+    },
+    {
+        "id": "d4a62137cad11c32",
+        "type": "server",
+        "name": "Home Assistant",
+        "version": 5,
+        "addon": false,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true,
+        "heartbeat": false,
+        "heartbeatInterval": "30",
+        "areaSelector": "friendlyName",
+        "deviceSelector": "friendlyName",
+        "entitySelector": "friendlyName",
+        "statusSeparator": "at: ",
+        "statusYear": "hidden",
+        "statusMonth": "short",
+        "statusDay": "numeric",
+        "statusHourCycle": "h23",
+        "statusTimeFormat": "h:m",
+        "enableGlobalContextStore": true
+    }
+]
