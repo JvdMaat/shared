@@ -3,7 +3,7 @@
         "id": "c5abd79d6e5f9290",
         "type": "group",
         "z": "fbff923444034ab0",
-        "name": "High/Low",
+        "name": "High/Low temps",
         "style": {
             "stroke": "#92d04f",
             "fill": "#e3f3d3",
@@ -506,9 +506,7 @@
         "y": 1540,
         "wires": [
             [
-                "6160f253158b3fe1",
-                "0142a78589b4a959",
-                "9ee3bfbffe3f4eb5"
+                "6160f253158b3fe1"
             ]
         ]
     },
@@ -522,7 +520,13 @@
         "version": 0,
         "state": "current",
         "stateType": "msg",
-        "attributes": [],
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "date",
+                "valueType": "msg"
+            }
+        ],
         "inputOverride": "allow",
         "outputProperties": [],
         "x": 730,
@@ -541,7 +545,13 @@
         "version": 0,
         "state": "current",
         "stateType": "msg",
-        "attributes": [],
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "date",
+                "valueType": "msg"
+            }
+        ],
         "inputOverride": "allow",
         "outputProperties": [],
         "x": 730,
@@ -556,7 +566,7 @@
         "z": "fbff923444034ab0",
         "g": "c5abd79d6e5f9290",
         "name": "First day of Week, Month, Year?",
-        "func": "/* How do we get day of week, month, year? */\n\nconst today = new Date();\nconst dayOfWeek = today.getDay();\nconst dayOfMonth = today.getDate();\nconst firstDayOfYear = new Date(today.getFullYear(),0,1);\n\n\nif (dayOfWeek == 1) { //Monday\n    msg.week = true;\n}\nif (dayOfMonth == 1) { //1-31\n    msg.month = true;\n}\nif (today.getTime() == firstDayOfYear.getTime()) {\n    msg.year = true;\n}\n\nreturn msg;",
+        "func": "/* How do we get day of week, month, year? */\n\nconst today = new Date();\nconst dayOfWeek = today.getDay();\nconst dayOfMonth = today.getDate();\nconst firstDayOfYear = new Date(today.getFullYear(),0,1);\nvar d=new Date()\nmsg.date = d.toLocaleString(); \n\nif (dayOfWeek == 1) { //Monday\n    msg.week = true;\n}\nif (dayOfMonth == 1) { //1-31\n    msg.month = true;\n}\nif (today.getTime() == firstDayOfYear.getTime()) {\n    msg.year = true;\n}\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -569,7 +579,9 @@
             [
                 "051282c1f861b38a",
                 "7ccfa9930c386172",
-                "012de8f3420b71b2"
+                "012de8f3420b71b2",
+                "9ee3bfbffe3f4eb5",
+                "0142a78589b4a959"
             ]
         ]
     },
@@ -579,7 +591,7 @@
         "z": "fbff923444034ab0",
         "g": "c5abd79d6e5f9290",
         "name": "Weekly",
-        "property": "weekly",
+        "property": "week",
         "propertyType": "msg",
         "rules": [
             {
@@ -604,7 +616,7 @@
         "z": "fbff923444034ab0",
         "g": "c5abd79d6e5f9290",
         "name": "Monthly",
-        "property": "monthly",
+        "property": "month",
         "propertyType": "msg",
         "rules": [
             {
@@ -629,7 +641,7 @@
         "z": "fbff923444034ab0",
         "g": "c5abd79d6e5f9290",
         "name": "Yearly",
-        "property": "yearly",
+        "property": "year",
         "propertyType": "msg",
         "rules": [
             {
@@ -658,7 +670,13 @@
         "version": 0,
         "state": "current",
         "stateType": "msg",
-        "attributes": [],
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "date",
+                "valueType": "msg"
+            }
+        ],
         "inputOverride": "allow",
         "outputProperties": [],
         "x": 740,
@@ -677,7 +695,13 @@
         "version": 0,
         "state": "current",
         "stateType": "msg",
-        "attributes": [],
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "date",
+                "valueType": "msg"
+            }
+        ],
         "inputOverride": "allow",
         "outputProperties": [],
         "x": 750,
@@ -1116,7 +1140,13 @@
         "version": 0,
         "state": "current",
         "stateType": "msg",
-        "attributes": [],
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "date",
+                "valueType": "str"
+            }
+        ],
         "inputOverride": "allow",
         "outputProperties": [],
         "x": 740,
@@ -1135,7 +1165,13 @@
         "version": 0,
         "state": "current",
         "stateType": "msg",
-        "attributes": [],
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "date",
+                "valueType": "str"
+            }
+        ],
         "inputOverride": "allow",
         "outputProperties": [],
         "x": 750,
@@ -1154,7 +1190,13 @@
         "version": 0,
         "state": "current",
         "stateType": "msg",
-        "attributes": [],
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "date",
+                "valueType": "msg"
+            }
+        ],
         "inputOverride": "allow",
         "outputProperties": [],
         "x": 740,
@@ -1173,7 +1215,13 @@
         "version": 0,
         "state": "current",
         "stateType": "msg",
-        "attributes": [],
+        "attributes": [
+            {
+                "property": "Date",
+                "value": "date",
+                "valueType": "msg"
+            }
+        ],
         "inputOverride": "allow",
         "outputProperties": [],
         "x": 740,
